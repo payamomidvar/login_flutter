@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/register_bloc.dart';
+import '../bloc/register/register_bloc.dart';
 import '../constants/constants.dart';
 import '../models/register.dart';
 import '../widgets/username.dart';

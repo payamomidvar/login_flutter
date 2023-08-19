@@ -7,6 +7,7 @@ const double smallPadding = 5.0;
 const double strokeWidth = 1.5;
 const double mediumWidth = 20;
 const double largeWidth = 50;
+const double largeHeight = 50;
 const double mediumHeight = 20;
 const double borderFocusWidth = 1;
 const double borderWidth = 0.5;

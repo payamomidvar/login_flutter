@@ -8,13 +8,13 @@ class AppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final String subtitle;
   final double height;
-  final Function() onTap;
+  final Function()? onTap;
 
   const AppBar({
     required this.title,
     required this.subtitle,
-    required this.onTap,
     this.height = kToolbarHeight,
+    this.onTap,
     super.key,
   });
 
@@ -34,7 +34,8 @@ class AppBar extends StatelessWidget implements PreferredSizeWidget {
             left: 30,
             child: Text(
               title,
-              style: const TextStyle(color: secondaryColor, fontSize: hugeFontSize),
+              style: const TextStyle(
+                  color: secondaryColor, fontSize: hugeFontSize),
             ),
           ),
           Positioned(
@@ -42,17 +43,20 @@ class AppBar extends StatelessWidget implements PreferredSizeWidget {
             left: 30,
             child: Text(
               subtitle,
-              style: const TextStyle(color: descriptionColor, fontSize: largeFontSize),
+              style: const TextStyle(
+                  color: descriptionColor, fontSize: largeFontSize),
             ),
           ),
-          Positioned(
-            top: 20,
-            left: 10,
-            child: IconButton(
-              onPressed: onTap,
-              icon: const Icon(Icons.arrow_back, color: secondaryColor),
-            ),
-          ),
+          onTap != null
+              ? Positioned(
+                  top: 20,
+                  left: 10,
+                  child: IconButton(
+                    onPressed: onTap,
+                    icon: const Icon(Icons.arrow_back, color: secondaryColor),
+                  ),
+                )
+              : const SizedBox.shrink(),
         ],
       ),
     );

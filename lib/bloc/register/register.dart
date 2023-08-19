@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../screens/register_page.dart';
-import '../repositories/user_repository.dart';
+import '../../screens/register_page.dart';
+import '../../repositories/user_repository.dart';
 import 'register_bloc.dart';
 
 class Register extends StatelessWidget {
