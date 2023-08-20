@@ -4,6 +4,7 @@ import 'package:login/models/login.dart';
 import 'package:login/widgets/email.dart';
 import 'package:login/widgets/password.dart';
 import '../bloc/login/login_bloc.dart';
+import '../bloc/login/login_memory_bloc.dart';
 import '../constants/constants.dart';
 import '../widgets/app_bar.dart' as app_bar;
 import '../widgets/submit.dart';
@@ -68,7 +69,14 @@ class LoginPage extends StatelessWidget {
                         SnackBar(content: Text(state.errorMessage)),
                       );
                     } else if (state.status == LoginStatus.success) {
-                      print('success');
+                      if (state.token != null) {
+                        BlocProvider.of<LoginMemoryBloc>(context)
+                            .saveToken(state.token!);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('try again...')),
+                        );
+                      }
                     }
                   },
                   builder: (context, state) => Submit(

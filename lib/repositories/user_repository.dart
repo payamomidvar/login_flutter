@@ -6,7 +6,6 @@ import 'package:login/models/login.dart';
 import './config.dart';
 import '../models/register.dart';
 import '../constants/constants.dart';
-import 'package:dio/dio.dart';
 
 class UserRepository {
   Future<bool> register(final Register dto) async {
@@ -27,20 +26,14 @@ class UserRepository {
     return result;
   }
 
-  Future<bool> login(final Login dto) async {
-    bool result = false;
+  Future<String?> login(final Login dto) async {
+    String? token;
     Uri url = Uri(
       scheme: scheme,
       host: host,
       port: port,
       path: 'login/',
-      // queryParameters: {
-      //   'email': dto.email,
-      //   'password': dto.password,
-      //   // 'password': encoding?.encode(dto.password).toString(),
-      // },
     );
-    // print(encoding?.decode(encoding?.encode(dto.password) as List<int>));
     await http
         .post(url, headers: headers, body: json.encode(dto.toJson()))
         .timeout(duration)
@@ -49,11 +42,12 @@ class UserRepository {
       if (response.statusCode != 200) {
         throw HttpException('${response.statusCode}');
       }
-      result = true;
+      final res = jsonDecode(response.body);
+      token = res['access'];
     }).onError((error, stackTrace) {
       throw Exception(error);
     });
 
-    return result;
+    return token;
   }
 }

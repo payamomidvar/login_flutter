@@ -9,7 +9,7 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final UserRepository _repository;
 
-  LoginBloc(this._repository) : super(const LoginState()) {
+  LoginBloc(this._repository) : super(LoginState()) {
     on<LoginEvent>(_mapLoginEventToState);
   }
 
@@ -17,9 +17,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       emit(state.copyWith(status: LoginStatus.initial));
 
-      final bool result = await _repository.login(event.dto);
-      result
-          ? emit(state.copyWith(status: LoginStatus.success))
+      final String? result = await _repository.login(event.dto);
+      result != null
+          ? emit(state.copyWith(status: LoginStatus.success, token: result))
           : emit(
         state.copyWith(
           status: LoginStatus.fail,
