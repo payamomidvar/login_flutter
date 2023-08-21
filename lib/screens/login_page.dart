@@ -6,6 +6,7 @@ import 'package:login/widgets/password.dart';
 import '../bloc/login/login_bloc.dart';
 import '../bloc/login/login_memory_bloc.dart';
 import '../constants/constants.dart';
+import '../routes/routes.dart';
 import '../widgets/app_bar.dart' as app_bar;
 import '../widgets/submit.dart';
 
@@ -97,7 +98,8 @@ class LoginPage extends StatelessWidget {
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         minimumSize: const Size(largeWidth, mediumHeight),
                       ),
-                      onPressed: () {},
+                      onPressed: () =>
+                          Navigator.pushNamed(context, RouteApp.register),
                       child: Text(
                         'Register',
                         style: Theme.of(context)
@@ -117,11 +119,10 @@ class LoginPage extends StatelessWidget {
   }
 
   onSubmitTap(BuildContext context) {
-    if (formKey.currentState?.validate() ?? false ) {
+    if (formKey.currentState?.validate() ?? false) {
       final Login dto = Login(
         email: emailController.text,
         password: passwordController.text,
-
       );
       context.read<LoginBloc>().add(LoginEvent(dto));
     }

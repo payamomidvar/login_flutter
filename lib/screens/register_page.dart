@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/register/register_bloc.dart';
 import '../constants/constants.dart';
 import '../models/register.dart';
+import '../routes/routes.dart';
 import '../widgets/username.dart';
 import '../widgets/email.dart';
 import '../widgets/password.dart';
@@ -24,9 +25,7 @@ class RegisterPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: app_bar.AppBar(
-          onTap: (){
-            print('back');
-          },
+          onTap: ()=> Navigator.pop(context),
           title: 'Register',
           subtitle: 'Create your account',
           height: MediaQuery.of(context).size.height * 0.3,
@@ -55,7 +54,7 @@ class RegisterPage extends StatelessWidget {
                         SnackBar(content: Text(state.errorMessage)),
                       );
                     } else if (state.status == RegisterStatus.success) {
-                      print('success');
+                      Navigator.pop(context);
                     }
                   },
                   builder: (context, state) => Submit(
@@ -75,7 +74,7 @@ class RegisterPage extends StatelessWidget {
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         minimumSize: const Size(largeWidth, mediumHeight),
                       ),
-                      onPressed: () {},
+                      onPressed: () => Navigator.pop(context),
                       child: Text(
                         'Login',
                         style: Theme.of(context)
