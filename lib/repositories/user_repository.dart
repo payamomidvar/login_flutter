@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:login/models/login.dart';
+import 'package:login/models/user.dart';
 import './config.dart';
 import '../models/register.dart';
 import '../constants/constants.dart';
@@ -12,7 +13,9 @@ class UserRepository {
     bool result = false;
     Uri url = Uri(scheme: scheme, host: host, port: port, path: 'register/');
     await http
-        .post(url, headers: headers, body: json.encode(dto.toJson()))
+        .post(url,
+            headers: {'Content-Type': 'application/json'},
+            body: json.encode(dto.toJson()))
         .timeout(duration)
         .then((response) {
       if (response.statusCode != 201) {
@@ -35,10 +38,11 @@ class UserRepository {
       path: 'login/',
     );
     await http
-        .post(url, headers: headers, body: json.encode(dto.toJson()))
+        .post(url,
+            headers: {'Content-Type': 'application/json'},
+            body: json.encode(dto.toJson()))
         .timeout(duration)
         .then((response) {
-      print(response.statusCode);
       if (response.statusCode != 200) {
         throw HttpException('${response.statusCode}');
       }
@@ -49,5 +53,34 @@ class UserRepository {
     });
 
     return token;
+  }
+
+  Future<User?> getUser() async {
+    String token = Token.token;
+    User? user;
+    Uri url = Uri(
+      scheme: scheme,
+      host: host,
+      port: port,
+      path: 'user/',
+    );
+    await http
+        .get(url, headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        })
+        .timeout(duration)
+        .then((response) {
+          if (response.statusCode != 200) {
+            throw HttpException('${response.statusCode}');
+          }
+          final json = jsonDecode(response.body);
+          user = User.fromJson(json);
+        })
+        .onError((error, stackTrace) {
+          throw Exception(error);
+        });
+
+    return user;
   }
 }

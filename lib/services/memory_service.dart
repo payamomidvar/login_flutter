@@ -9,4 +9,6 @@ class MemoryService {
 
   Future<bool> saveToken(final String token) async =>
       await prefs.setString(_kToken, token);
+
+  String? get getToken => prefs.getString(_kToken);
 }

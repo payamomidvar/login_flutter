@@ -5,21 +5,23 @@ import 'package:flutter/material.dart';
 import '../constants/constants.dart';
 
 class AppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String title;
-  final String subtitle;
-  final double height;
   final Function()? onTap;
+  final IconData? icon;
+  String? subtitle;
+  String? title;
+  double? height;
 
-  const AppBar({
-    required this.title,
-    required this.subtitle,
-    this.height = kToolbarHeight,
+  AppBar({
+    this.height,
+    this.title,
+    this.subtitle,
     this.onTap,
+    this.icon,
     super.key,
   });
 
   @override
-  Size get preferredSize => Size.fromHeight(height);
+  Size get preferredSize => Size.fromHeight(height ??= kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class AppBar extends StatelessWidget implements PreferredSizeWidget {
             bottom: 70,
             left: 30,
             child: Text(
-              title,
+              title ??= '',
               style: const TextStyle(
                   color: secondaryColor, fontSize: hugeFontSize),
             ),
@@ -42,18 +44,18 @@ class AppBar extends StatelessWidget implements PreferredSizeWidget {
             bottom: 40,
             left: 30,
             child: Text(
-              subtitle,
+              subtitle ??= '',
               style: const TextStyle(
                   color: descriptionColor, fontSize: largeFontSize),
             ),
           ),
-          onTap != null
+          onTap != null && icon != null
               ? Positioned(
                   top: 20,
                   left: 10,
                   child: IconButton(
                     onPressed: onTap,
-                    icon: const Icon(Icons.arrow_back, color: secondaryColor),
+                    icon: Icon(icon, color: secondaryColor),
                   ),
                 )
               : const SizedBox.shrink(),

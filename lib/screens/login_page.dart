@@ -73,6 +73,7 @@ class LoginPage extends StatelessWidget {
                       if (state.token != null) {
                         BlocProvider.of<LoginMemoryBloc>(context)
                             .saveToken(state.token!);
+                        Navigator.pushNamed(context, RouteApp.home);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('try again...')),

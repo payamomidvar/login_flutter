@@ -10,6 +10,10 @@ ThemeData lightTheme = ThemeData(
     bodyMedium: TextStyle(color: textColor, fontSize: mediumFontSize),
     bodySmall: TextStyle(color: textColor, fontSize: smallFontSize),
   ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: primaryColor,
+
+  ),
   inputDecorationTheme: const InputDecorationTheme(
     border:OutlineInputBorder(
       borderSide: BorderSide(width: borderFocusWidth, color: borderColor),

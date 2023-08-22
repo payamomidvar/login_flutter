@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:login/screens/login_page.dart';
-import 'package:login/screens/register_page.dart';
+import 'package:login/bloc/home/home.dart';
 import './themes/light_theme.dart';
 import 'bloc/login/login.dart';
 import 'bloc/register/register.dart';
@@ -21,6 +20,7 @@ class LoginApp extends StatelessWidget {
       routes: {
         RouteApp.register: (context) => const Register(),
         RouteApp.login: (context) => Login(memoryService: memoryService),
+        RouteApp.home: (context) => Home(memoryService: memoryService)
       },
     );
   }

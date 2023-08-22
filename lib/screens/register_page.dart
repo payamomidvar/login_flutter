@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/register/register_bloc.dart';
 import '../constants/constants.dart';
 import '../models/register.dart';
-import '../routes/routes.dart';
 import '../widgets/username.dart';
 import '../widgets/email.dart';
 import '../widgets/password.dart';
@@ -26,6 +25,7 @@ class RegisterPage extends StatelessWidget {
       child: Scaffold(
         appBar: app_bar.AppBar(
           onTap: ()=> Navigator.pop(context),
+          icon: Icons.arrow_back,
           title: 'Register',
           subtitle: 'Create your account',
           height: MediaQuery.of(context).size.height * 0.3,
