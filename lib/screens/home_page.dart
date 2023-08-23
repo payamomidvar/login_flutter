@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/bloc/home/home_bloc.dart';
 import 'package:login/bloc/token/token_bloc.dart';
 import '../repositories/config.dart';
+import '../routes/routes.dart';
 import '../widgets/app_bar.dart' as app_bar;
 import '../constants/constants.dart';
 
@@ -37,7 +38,9 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: !isLoading
             ? FloatingActionButton(
                 child: const Icon(Icons.key, color: textColor),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, RouteApp.changePassword);
+                },
               )
             : null,
         body: Center(

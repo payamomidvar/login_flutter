@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:login/models/login.dart';
 import 'package:login/models/user.dart';
+import '../models/change_password.dart';
 import './config.dart';
 import '../models/register.dart';
 import '../constants/constants.dart';
@@ -82,5 +83,32 @@ class UserRepository {
         });
 
     return user;
+  }
+
+  Future<bool> changePassword(final ChangePassword dto) async {
+    String token = Token.token;
+    bool result = false;
+    Uri url = Uri(
+      scheme: scheme,
+      host: host,
+      port: port,
+      path: 'user/change_password/',
+    );
+    await http
+        .patch(url, body: dto.toJson(), headers: {
+          'Authorization': 'Bearer $token',
+        })
+        .timeout(duration)
+        .then((response) {
+          if (response.statusCode != 200) {
+            throw HttpException('${response.statusCode}');
+          }
+          result = true;
+        })
+        .onError((error, stackTrace) {
+          throw Exception(error);
+        });
+
+    return result;
   }
 }
