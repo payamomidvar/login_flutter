@@ -11,10 +11,10 @@ class ChangePasswordBloc extends Bloc<ChangePasswordEvent, ChangePasswordState> 
   final UserRepository _repository;
 
   ChangePasswordBloc(this._repository) : super(const ChangePasswordState()) {
-    on<ChangePasswordEvent>(_mapRegisterEventToState);
+    on<ChangePasswordEvent>(_mapChangePasswordEventToState);
   }
 
-  void _mapRegisterEventToState(
+  void _mapChangePasswordEventToState(
       ChangePasswordEvent event, Emitter<ChangePasswordState> emit) async {
     try {
       emit(state.copyWith(status: ChangePasswordStatus.initial));

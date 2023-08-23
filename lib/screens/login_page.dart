@@ -50,7 +50,8 @@ class LoginPage extends StatelessWidget {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           minimumSize: const Size(largeWidth, mediumHeight),
                         ),
-                        onPressed: () {},
+                        onPressed: () => Navigator.pushNamed(
+                            context, RouteApp.forgotPassword),
                         child: Text(
                           'Forgot password?',
                           style: Theme.of(context)
@@ -84,7 +85,7 @@ class LoginPage extends StatelessWidget {
                   builder: (context, state) => Submit(
                     isLoading:
                         state.status == LoginStatus.loading ? true : false,
-                    title: 'Register',
+                    title: 'Login',
                     onTap: () => onSubmitTap(context),
                   ),
                 ),

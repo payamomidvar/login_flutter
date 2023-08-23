@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:login/models/forgot_password.dart';
 import 'package:login/models/login.dart';
 import 'package:login/models/user.dart';
 import '../models/change_password.dart';
@@ -108,6 +109,26 @@ class UserRepository {
         .onError((error, stackTrace) {
           throw Exception(error);
         });
+
+    return result;
+  }
+
+  Future<bool> forgotPassword(final ForgotPassword dto) async {
+    bool result = false;
+    Uri url = Uri(scheme: scheme, host: host, port: port, path: 'user/forgot_password/');
+    await http
+        .post(url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(dto.toJson()))
+        .timeout(duration)
+        .then((response) {
+      if (response.statusCode != 201) {
+        throw HttpException('${response.statusCode}');
+      }
+      result = true;
+    }).onError((error, stackTrace) {
+      throw Exception(error);
+    });
 
     return result;
   }

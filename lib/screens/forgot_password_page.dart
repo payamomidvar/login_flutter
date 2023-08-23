@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:login/bloc/change_password/change_password_bloc.dart';
-import 'package:login/models/change_password.dart';
+import 'package:login/bloc/forgot_password/forgot_password_bloc.dart';
 import '../constants/constants.dart';
-import '../routes/routes.dart';
-import '../widgets/password.dart';
+import '../models/forgot_password.dart';
+import '../widgets/email.dart';
 import '../widgets/submit.dart';
 import '../widgets/app_bar.dart' as app_bar;
 
-class ChangePasswordPage extends StatelessWidget {
-  ChangePasswordPage({super.key});
+class ForgotPasswordPage extends StatelessWidget {
+  ForgotPasswordPage({super.key});
 
-  final TextEditingController currentPasswordController =
-          TextEditingController(),
-      newPasswordController = TextEditingController(),
-      repeatNewPasswordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -25,8 +21,8 @@ class ChangePasswordPage extends StatelessWidget {
         appBar: app_bar.AppBar(
           onTap: () => Navigator.pop(context),
           icon: Icons.arrow_back,
-          title: 'Change password',
-          subtitle: 'Enter current password and new password',
+          title: 'Forgot password',
+          subtitle: 'Enter your email account to reset password',
           height: MediaQuery.of(context).size.height * 0.2,
         ),
         body: Form(
@@ -36,30 +32,20 @@ class ChangePasswordPage extends StatelessWidget {
             child: ListView(
               shrinkWrap: true,
               children: [
-                Password(
-                    label: 'Current password',
-                    controller: currentPasswordController),
-                Password(
-                    label: 'New password', controller: newPasswordController),
-                Password(
-                  label: 'Repeat new password',
-                  controller: repeatNewPasswordController,
-                  anotherController: newPasswordController,
-                  isRepeatPassword: true,
-                ),
-                BlocConsumer<ChangePasswordBloc, ChangePasswordState>(
+                Email(controller: emailController),
+                BlocConsumer<ForgotPasswordBloc, ForgotPasswordState>(
                   listener: (context, state) {
-                    if (state.status == ChangePasswordStatus.error ||
-                        state.status == ChangePasswordStatus.fail) {
+                    if (state.status == ForgotPasswordStatus.error ||
+                        state.status == ForgotPasswordStatus.fail) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(state.errorMessage)),
                       );
-                    } else if (state.status == ChangePasswordStatus.success) {
+                    } else if (state.status == ForgotPasswordStatus.success) {
                       showSuccessMessage(context);
                     }
                   },
                   builder: (context, state) => Submit(
-                    isLoading: state.status == ChangePasswordStatus.loading
+                    isLoading: state.status == ForgotPasswordStatus.loading
                         ? true
                         : false,
                     title: 'Submit',
@@ -76,24 +62,22 @@ class ChangePasswordPage extends StatelessWidget {
 
   Future<void> onSubmitTap(BuildContext context) async {
     if (formKey.currentState?.validate() ?? false) {
-      final ChangePassword dto = ChangePassword(
-        currentPassword: currentPasswordController.text,
-        newPassword: newPasswordController.text,
-        repeatNewPassword: repeatNewPasswordController.text,
+      final ForgotPassword dto = ForgotPassword(
+        email: emailController.text,
       );
-      context.read<ChangePasswordBloc>().add(ChangePasswordEvent(dto));
+      context.read<ForgotPasswordBloc>().add(ForgotPasswordEvent(dto));
     }
   }
 
   showSuccessMessage(BuildContext context) {
     Widget okButton = TextButton(
       child: const Text("OK"),
-      onPressed: () => Navigator.pushNamed(context, RouteApp.login),
+      onPressed: () => Navigator.pop(context),
     );
 
     AlertDialog alert = AlertDialog(
       title: const Text("Success"),
-      content: const Text("Password changed, please login again."),
+      content: const Text("New password was send your email, please login."),
       actions: [okButton],
     );
 
@@ -101,6 +85,8 @@ class ChangePasswordPage extends StatelessWidget {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) => alert,
-    );
+    ).then((value) {
+      Navigator.pop(context);
+    });
   }
 }
