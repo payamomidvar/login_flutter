@@ -4,4 +4,5 @@ class RouteApp{
   static const String home = '/home';
   static const String changePassword = '/change-password';
   static const String forgotPassword = '/forgot-password';
+  static const String splash = '/splash';
 }

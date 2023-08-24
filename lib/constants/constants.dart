@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 const Duration duration = Duration(seconds: 30);
+const Duration startTime = Duration(seconds: 5);
+const String appName = 'Login app';
+
 
 const double largePadding = 20.0;
 const double smallPadding = 5.0;

@@ -56,7 +56,11 @@ class _HomePageState extends State<HomePage> {
             },
             builder: (context, state) {
               return isLoading
-                  ? const CircularProgressIndicator()
+                  ? const SizedBox(
+                      height: mediumWidth,
+                      width: mediumHeight,
+                      child: CircularProgressIndicator(),
+                    )
                   : BlocConsumer<HomeBloc, HomeState>(
                       listener: (context, state) {
                         if (state.status == HomeStatus.error ||
@@ -75,7 +79,11 @@ class _HomePageState extends State<HomePage> {
                         return Center(
                           child: state.status == HomeStatus.initial ||
                                   state.status == HomeStatus.loading
-                              ? const CircularProgressIndicator()
+                              ? const SizedBox(
+                                  height: mediumWidth,
+                                  width: mediumHeight,
+                                  child: CircularProgressIndicator(),
+                                )
                               : state.status == HomeStatus.success
                                   ? Text('Hi ${state.user?.username ?? ''}')
                                   : IconButton(
