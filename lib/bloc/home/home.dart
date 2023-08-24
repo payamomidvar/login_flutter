@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:login/bloc/logout/logout_bloc.dart';
 
 import '../../repositories/user_repository.dart';
 import '../../screens/home_page.dart';
@@ -22,6 +23,7 @@ class Home extends StatelessWidget {
             create: (context) => HomeBloc(context.read<UserRepository>()),
           ),
           BlocProvider(create: (context) => TokenBloc(memoryService)),
+          BlocProvider(create: (context) => LogoutBloc(memoryService)),
         ],
         child: const HomePage(),
       ),

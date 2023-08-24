@@ -22,7 +22,8 @@ class LoginApp extends StatelessWidget {
       initialRoute: RouteApp.splash,
       routes: {
         RouteApp.register: (context) => const Register(),
-        RouteApp.changePassword: (context) => const ChangePassword(),
+        RouteApp.changePassword: (context) =>
+            ChangePassword(memoryService: memoryService),
         RouteApp.forgotPassword: (context) => const ForgotPassword(),
         RouteApp.login: (context) => Login(memoryService: memoryService),
         RouteApp.home: (context) => Home(memoryService: memoryService),

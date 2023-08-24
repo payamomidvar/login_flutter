@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/bloc/home/home_bloc.dart';
 import 'package:login/bloc/token/token_bloc.dart';
+import '../bloc/logout/logout_bloc.dart';
 import '../repositories/config.dart';
 import '../routes/routes.dart';
 import '../widgets/app_bar.dart' as app_bar;
@@ -16,11 +17,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool isLoading = true;
+  late LogoutBloc logoutBloc;
 
   @override
   didChangeDependencies() {
-    super.didChangeDependencies();
+    logoutBloc = BlocProvider.of<LogoutBloc>(context);
+
     BlocProvider.of<TokenBloc>(context).add(const TokenEvent());
+    super.didChangeDependencies();
   }
 
   @override
@@ -30,7 +34,7 @@ class _HomePageState extends State<HomePage> {
         appBar: !isLoading
             ? app_bar.AppBar(
                 icon: Icons.logout,
-                onTap: () {},
+                onTap: () => logoutDialog(context),
                 subtitle: 'Welcome to login app',
                 height: MediaQuery.of(context).size.height * 0.2,
               )
@@ -101,6 +105,42 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+    );
+  }
+
+  void logoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          content: const Text('Do you want to log out?'),
+          actions: [
+            BlocConsumer(
+              bloc: logoutBloc,
+              listener: (context, bool state) {
+                if (state) {
+                  Token.token = '';
+                  Navigator.pushNamed(context, RouteApp.login);
+                } else {}
+              },
+              builder: (context, state) => ElevatedButton(
+                onPressed: () {
+                  logoutBloc.logout();
+                },
+                child: const Text('Yes'),
+              ),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text(
+                'No',
+                style: TextStyle(color: primaryColor),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

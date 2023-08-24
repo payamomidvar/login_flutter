@@ -11,4 +11,6 @@ class MemoryService {
       await prefs.setString(_kToken, token);
 
   String? get getToken => prefs.getString(_kToken);
+
+  Future<bool> removeToken() async => await prefs.remove(_kToken);
 }
